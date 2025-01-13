@@ -4,6 +4,10 @@ const path = require("path");
 // initialize express
 const app = express();
 
+// Body parse middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 // import people from people.js
 const people = require("./routes/people");
 

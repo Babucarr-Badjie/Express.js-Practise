@@ -35,4 +35,54 @@ router.get("/:id", (req, res) => {
   }
 });
 
+// create new post
+router.post("/", (req, res) => {
+  //   console.log(req.body);
+  const newPerson = {
+    id: people.length + 1,
+    name: req.body.name,
+  };
+
+  if (!newPerson.name) {
+    return res.status(400).json({ message: "Please include the name" });
+  } else {
+    people.push(newPerson);
+    res.status(201).json(people);
+  }
+
+  res.status(201).json(people);
+});
+
+// update people array
+router.put("/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const person = people.find((person) => person.id === id);
+
+  if (!person) {
+    return res.status(404).json({
+      message: `A person with id of ${id} was not found. 
+      Perhaps doesn't exist!`,
+    });
+  }
+
+  person.name = req.body.name;
+  res.status(200).json(people);
+});
+
+// delete person
+router.delete("/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const person = people.find((person) => person.id === id);
+
+  if (!person) {
+    return res.status(404).json({
+      message: `A person with id of ${id} was not found. 
+        Perhaps doesn't exist!`,
+    });
+  }
+
+  people = people.filter((person) => person.id !== id);
+  res.status(200).json(people);
+});
+
 module.exports = router;
